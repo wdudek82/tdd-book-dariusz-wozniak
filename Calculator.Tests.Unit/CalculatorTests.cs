@@ -1,21 +1,12 @@
 using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 
 namespace Calculator.Tests.Unit
 {
-
     public class CalculatorTests
     {
-        private Calculator _calculator;
-
-        [SetUp]
-        public void BaseSetUp() {
-            // Arrange
-            _calculator = new Calculator();
-        }
-
-
         [TestCase(4, 2, 2)]
         [TestCase(-4, 2, -2)]
         [TestCase(0, 3, 0)]
@@ -25,8 +16,11 @@ namespace Calculator.Tests.Unit
         public void When_dividing_two_numbers_then_result_is_properly_calculated(decimal divided, decimal divisor,
             decimal expectedQuotient)
         {
+            // Arrange
+            var calculator = new Calculator();
+
             // Act
-            decimal quotient = _calculator.Divide(divided, divisor);
+            decimal quotient = calculator.Divide(divided, divisor);
 
             // Assert
             // Assert.AreEqual(expectedQuotient, quotient);
@@ -37,10 +31,13 @@ namespace Calculator.Tests.Unit
         public void When_dividing_one_by_three_then_the_result_is_0_comma_3333333333333333333333333333()
         {
             // Arrange
+            var calculator = new Calculator();
+
+            // Arrange
             decimal expectedQuotient = 0.3333333333333333333333333333m;
 
             // Act
-            decimal quotient = _calculator.Divide(1, 3);
+            decimal quotient = calculator.Divide(1, 3);
 
             // Assert
             // Assert.AreEqual(expectedQuotient, quotient);
@@ -51,10 +48,13 @@ namespace Calculator.Tests.Unit
         public void When_dividing_two_by_three_then_the_result_is_0_comma_6666666666666666666666666667()
         {
             // Arrange
+            var calculator = new Calculator();
+
+            // Arrange
             decimal expectedQuotient = 0.6666666666666666666666666667m;
 
             // Act
-            decimal quotient = _calculator.Divide(2, 3);
+            decimal quotient = calculator.Divide(2, 3);
 
             // Assert
             // Assert.AreEqual(expectedQuotient, quotient);
@@ -65,10 +65,13 @@ namespace Calculator.Tests.Unit
         public void When_dividing_two_by_three_then_the_result_is_0_comma_6666_within_tolerance()
         {
             // Arrange
+            var calculator = new Calculator();
+
+            // Arrange
             const decimal expectedQuotient = 0.6666m;
 
             // Act
-            decimal quotient = _calculator.Divide(2, 3);
+            decimal quotient = calculator.Divide(2, 3);
 
             // Assert
             // Assert.AreEqual(expectedQuotient, (double) quotient, 0.0001);
@@ -79,9 +82,11 @@ namespace Calculator.Tests.Unit
         public void When_dividing_by_zero_then_exception_is_thrown()
         {
             // Arrange
+            var calculator = new Calculator();
+
             // Act & Assert
             // Assert.Throws<DivideByZeroException>(() => calculator.Divide(5, 0));
-            _calculator.Invoking(x => x.Divide(5, 0))
+            calculator.Invoking(x => x.Divide(5, 0))
                 .Should().Throw<DivideByZeroException>();
         }
 
@@ -89,11 +94,12 @@ namespace Calculator.Tests.Unit
         public void When_division_is_complete_then_an_event_is_called()
         {
             // Arrange
+            var calculator = new Calculator();
             var hasEventBeenCalled = false;
 
             // Act
-            _calculator.Calculated += (sender, result) => hasEventBeenCalled = true;
-            _calculator.Divide(4, 2);
+            calculator.Calculated += (sender, result) => hasEventBeenCalled = true;
+            calculator.Divide(4, 2);
 
             // Assert
             // Assert.IsTrue(hasEventBeenCalled);
@@ -104,11 +110,12 @@ namespace Calculator.Tests.Unit
         public void When_dividing_is_complete_then_result_is_passed_to_event_args()
         {
             // Arrange
+            var calculator = new Calculator();
             decimal? quotient = null;
 
             // Act
-            _calculator.Calculated += (sender, result) => quotient = result;
-            _calculator.Divide(4, 2);
+            calculator.Calculated += (sender, result) => quotient = result;
+            calculator.Divide(4, 2);
 
             // Assert
             quotient.Should().NotBeNull();
