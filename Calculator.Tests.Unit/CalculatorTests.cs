@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -145,6 +146,18 @@ namespace Calculator.Tests.Unit
 
             // Assert.NotNull(quotient);
             // Assert.AreEqual(4 / 2, quotient.Value);
+        }
+
+        [TestCase(4, 2, ExpectedResult = 2)]
+        [TestCase(-4, 2, ExpectedResult = -2)]
+        [TestCase(4, -2, ExpectedResult = -2)]
+        [TestCase(0, 3, ExpectedResult = 0)]
+        [TestCase(5, 2, ExpectedResult = 2.5)]
+        public async Task<decimal> When_dividing_four_by_two_ten_the_result_is_two(decimal dividend, decimal divisor)
+        {
+            var calculator = new Calculator();
+
+            return await calculator.DivideAsync(dividend, divisor);
         }
     }
 }
