@@ -6,6 +6,29 @@ namespace Calculator.Tests.Unit
 {
     public class CalculatorTests
     {
+        [DatapointSource]
+        private readonly double[] _numbers = {-10.0, -6.3, 0, 1, 4.2, 120.7};
+
+        [DatapointSource]
+        private readonly double[] _negativeNumbers = {-10.0, -6.3};
+
+        [DatapointSource]
+        private readonly double[] _positiveNumbers = {1, 4.2, 120.7};
+
+        [Datapoint]
+        private readonly double _zero = 0;
+
+        [Theory]
+        public void When_dividing_positive_number_by_zero_then_result_is_positive_infinity(double number)
+        {
+            Assume.That(number, Is.Positive);
+
+            double quotient = number / 0;
+
+            Assert.That(quotient, Is.EqualTo(double.PositiveInfinity));
+        }
+
+
         [TestCase(4, 2, 2)]
         [TestCase(-4, 2, -2)]
         [TestCase(0, 3, 0)]
