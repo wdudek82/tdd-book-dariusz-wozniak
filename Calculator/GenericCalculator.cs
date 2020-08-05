@@ -1,5 +1,3 @@
-using System;
-
 namespace Calculator
 {
     public class GenericCalculator<T>
