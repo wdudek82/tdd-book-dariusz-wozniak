@@ -3,5 +3,6 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::0ECC976D-949D-4802-8EC1-2308B67B8A44::.NETCoreApp,Version=v3.1::Calculator.Tests.Unit.CalculatorTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::0ECC976D-949D-4802-8EC1-2308B67B8A44::.NETCoreApp,Version=v3.1::Calculator.Tests.Unit.GenericCalculatorTests&amp;lt;T&amp;gt;&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::0ECC976D-949D-4802-8EC1-2308B67B8A44::.NETCoreApp,Version=v3.1::Calculator.Tests.Unit.IsCustomerAdultValidatorTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
