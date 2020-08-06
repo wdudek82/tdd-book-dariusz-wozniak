@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Calculator.Tests.Unit
 {
     internal class CustomerMock : ICustomer
@@ -8,6 +10,11 @@ namespace Calculator.Tests.Unit
         {
             _age = age;
         }
+
+        public string FirstName { get; set; }
+        public IPhoneNumber PhoneNumber { get; set; }
+        public IList<IOrder> Orders { get; set; }
+
         public int GetAge()
         {
             return _age;

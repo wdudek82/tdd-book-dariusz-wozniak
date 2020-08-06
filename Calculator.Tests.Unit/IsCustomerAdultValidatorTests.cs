@@ -1,3 +1,4 @@
+using Moq;
 using NUnit.Framework;
 
 namespace Calculator.Tests.Unit
@@ -32,6 +33,18 @@ namespace Calculator.Tests.Unit
             var validator = new IsCustomerAdultValidator();
 
             Assert.That(() => validator.Validate(null), Throws.ArgumentNullException);
+        }
+
+        [Test]
+        public void mock_get()
+        {
+            ICustomer customer = Mock.Of<ICustomer>(x => x.FirstName == "John");
+
+            Mock<ICustomer> customerMock = Mock.Get(customer);
+
+            customerMock.Setup(x => x.FirstName).Returns("Jason");
+
+            Assert.That(customer.FirstName, Is.EqualTo("Jason"));
         }
     }
 }
