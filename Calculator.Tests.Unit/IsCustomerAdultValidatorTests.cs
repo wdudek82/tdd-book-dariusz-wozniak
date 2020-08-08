@@ -49,6 +49,20 @@ namespace Calculator.Tests.Unit
         }
 
         [Test]
+        public void property_behavior_imperative()
+        {
+            var customerMock = new Mock<ICustomer>();
+            customerMock.SetupProperty(x => x.FirstName, "John");
+
+            ICustomer customer = customerMock.Object;
+            customer.FirstName = "Jason";
+
+            string firstName = customer.FirstName;
+
+            Assert.That(firstName, Is.EqualTo("Jason"));
+        }
+
+        [Test]
         public void When_validator_always_returns_false_then_customer_is_never_added()
         {
             var validator = Mock.Of<ICustomerValidator>();
