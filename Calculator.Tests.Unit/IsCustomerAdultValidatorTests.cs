@@ -272,5 +272,17 @@ namespace Calculator.Tests.Unit
 
             Assert.That(age, Is.EqualTo(42));
         }
+
+        [Test]
+        public void mock_that_throws_exception()
+        {
+            var customer = Mock.Of<ICustomer>();
+
+            Mock.Get(customer)
+                .Setup(x => x.FirstName)
+                .Throws<ArgumentNullException>();
+
+            Assert.That(() => customer.FirstName, Throws.Exception.TypeOf<ArgumentNullException>());
+        }
     }
 }
