@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Moq;
 using NUnit.Framework;
@@ -233,6 +234,43 @@ namespace Calculator.Tests.Unit
             customerRepository.Add(Mock.Of<ICustomer>());
 
             Assert.That(timesCalled, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void callback_test_generic()
+        {
+            var customers = new List<ICustomer>();
+
+            var customerValidatorMock = new Mock<ICustomerValidator>();
+
+            customerValidatorMock
+                .Setup(x => x.Validate(It.IsAny<ICustomer>()))
+                .Callback<ICustomer>(customer => customers.Add(customer));
+
+            // ...
+        }
+
+        [Test]
+        public void callbase_set_to_true()
+        {
+            var person = Mock.Of<Person>();
+            Mock.Get(person).CallBase = true;
+
+            int age = person.GetAge();
+
+            Assert.That(age, Is.EqualTo(21));
+        }
+
+        [Test]
+        public void mock_and_callbase_set_to_true()
+        {
+            var person = Mock.Of<Person>();
+            Mock.Get(person).CallBase = true;
+            Mock.Get(person).Setup(x => x.GetAge()).Returns(42);
+
+            int age = person.GetAge();
+
+            Assert.That(age, Is.EqualTo(42));
         }
     }
 }
