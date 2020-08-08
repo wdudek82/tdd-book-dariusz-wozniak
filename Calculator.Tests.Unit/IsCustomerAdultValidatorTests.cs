@@ -215,5 +215,24 @@ namespace Calculator.Tests.Unit
 
             Mock.Get(customer).VerifySet(x => x.FirstName = "John", Times.Once);
         }
+
+        [Test]
+        public void callback_test()
+        {
+            var timesCalled = 0;
+
+            var customerValidatorMock = new Mock<ICustomerValidator>();
+
+            customerValidatorMock
+                .Setup(x => x.Validate(It.IsAny<ICustomer>()))
+                .Callback(() => timesCalled++);
+
+            var customerRepository = new CustomerRepository(customerValidatorMock.Object);
+
+            customerRepository.Add(Mock.Of<ICustomer>());
+            customerRepository.Add(Mock.Of<ICustomer>());
+
+            Assert.That(timesCalled, Is.EqualTo(2));
+        }
     }
 }
