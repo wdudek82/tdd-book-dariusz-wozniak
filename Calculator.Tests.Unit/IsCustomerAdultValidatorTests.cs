@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
@@ -187,5 +188,23 @@ namespace Calculator.Tests.Unit
         private ICustomer StartsWithJMatch => Match.Create<ICustomer>(x =>
             !string.IsNullOrEmpty(x?.FirstName) &&
             x.FirstName.StartsWith("J", StringComparison.InvariantCulture));
+
+        [Test]
+        public void when_customer_is_added_then_validate_is_called_once()
+        {
+            var validator = Mock.Of<ICustomerValidator>();
+
+            var john = Mock.Of<ICustomer>(customer => customer.FirstName == "John");
+
+            var customerRepository = new CustomerRepository(validator);
+            customerRepository.Add(john);
+
+            // For any object fulfilling ICustomer interface
+            // Mock.Get(validator).Verify(x => x.Validate(It.IsAny<ICustomer>()), Times.Once);
+
+            // For a customer with a specific property value
+            Mock.Get(validator).Verify(x =>
+                x.Validate(It.Is<ICustomer>(customer => customer.FirstName == "John")), Times.Once());
+        }
     }
 }
