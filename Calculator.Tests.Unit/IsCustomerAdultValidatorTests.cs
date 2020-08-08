@@ -206,5 +206,14 @@ namespace Calculator.Tests.Unit
             Mock.Get(validator).Verify(x =>
                 x.Validate(It.Is<ICustomer>(customer => customer.FirstName == "John")), Times.Once());
         }
+
+        [Test]
+        public void verify_set()
+        {
+            var customer = Mock.Of<ICustomer>();
+            customer.FirstName = "John";
+
+            Mock.Get(customer).VerifySet(x => x.FirstName = "John", Times.Once);
+        }
     }
 }
