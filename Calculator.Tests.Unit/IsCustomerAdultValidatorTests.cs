@@ -1,3 +1,4 @@
+using System;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
@@ -153,5 +154,38 @@ namespace Calculator.Tests.Unit
             Assert.That(customer.FirstName, Is.EqualTo(("Adam")));
             Assert.That(customer.FirstName, Is.Null);
         }
+
+        [Test]
+        public void customer_is_added_depending_on_validation_result()
+        {
+            var validator = Mock.Of<ICustomerValidator>(v =>
+                v.Validate(StartsWithJ));
+
+            var customerRepository = new CustomerRepository(validator);
+
+            var john = Mock.Of<ICustomer>(customer =>
+                customer.FirstName == "John");
+            var james = Mock.Of<ICustomer>(customer =>
+                customer.FirstName == "james");
+            var ken = Mock.Of<ICustomer>(customer =>
+                customer.FirstName == "Ken");
+
+            customerRepository.Add(john);
+            customerRepository.Add(james);
+            customerRepository.Add(ken);
+
+            Assert.That(customerRepository.AllCustomers,
+                Has.Exactly(1).Matches<ICustomer>(customer => customer.FirstName == "John"));
+        }
+
+        private static ICustomer StartsWithJ => It.Is<ICustomer>(x =>
+            x != null &&
+            !string.IsNullOrEmpty(x.FirstName) &&
+            x.FirstName.StartsWith("J", StringComparison.InvariantCulture));
+
+        // Alternative implementation
+        private ICustomer StartsWithJMatch => Match.Create<ICustomer>(x =>
+            !string.IsNullOrEmpty(x?.FirstName) &&
+            x.FirstName.StartsWith("J", StringComparison.InvariantCulture));
     }
 }
