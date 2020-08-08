@@ -108,5 +108,22 @@ namespace Calculator.Tests.Unit
             Assert.That(customerRepository.AllCustomers,
                 Has.Exactly(1).Matches<ICustomer>(customer => customer.FirstName == "John"));
         }
+
+        [Test]
+        public void sequential_mock()
+        {
+            var customerMock = new Mock<ICustomer>();
+            customerMock.SetupSequence(x => x.FirstName)
+                .Returns("John")
+                .Returns("James")
+                .Returns("Adam");
+
+            ICustomer customer = customerMock.Object;
+
+            Assert.That(customer.FirstName, Is.EqualTo("John"));
+            Assert.That(customer.FirstName, Is.EqualTo("James"));
+            Assert.That(customer.FirstName, Is.EqualTo(("Adam")));
+            Assert.That(customer.FirstName, Is.Null);
+        }
     }
 }
